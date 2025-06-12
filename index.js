@@ -63,31 +63,50 @@ app.get("/tasks/:id", async (req, res) => {
 });
 
 //Update Task
-app.patch("/tasks/:id", async (req,res) => {
+app.patch("/tasks/:id", async (req, res) => {
+  try {
+    console.log(req.body);
+    console.log("Req Params:", req.params);
+
+    const { id } = req.params;
+
+    console.log("Req Body:", req.body);
+
+    const { title, description, isCompleted } = req.body;
+
+    const updatedTask = await client.task.update({
+      where: {
+        id,
+      },
+      data: {
+        title,
+        description,
+        isCompleted,
+      },
+    });
+    res.status(200).json(updatedTask);
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ message: "Error updating task, please try again later." });
+  }
+});
+
+//Delete Task
+app.delete("/tasks/:id", async(req,res) => {
     try{
-        console.log(req.body);
-        console.log("Req Params:", req.params);
-
+        console.log(req.params);
         const { id } = req.params;
-
-        console.log("Req Body:", req.body);
-
-        const { title, description, isCompleted } = req.body;
-
-        const updatedTask = await client.task.update({
+        console.log(id);
+        await client.task.delete({
             where: {
-                id
+                id,
             },
-            data: {
-                title,
-                description,
-                isCompleted
-            }
-        })
-        res.status(200).json(updatedTask);
-    } catch(error){
-        console.log(error)
-        res.status(500).json({ message: "Error updating task, please try again later." });
+        });
+        res.status(200).json({ message: "Task deleted successfully." });
+    } catch (error) {
+        res.status(500).json({ message: "Error deleting task, please try again later." });
     }
 })
 
