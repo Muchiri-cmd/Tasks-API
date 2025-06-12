@@ -94,21 +94,23 @@ app.patch("/tasks/:id", async (req, res) => {
 });
 
 //Delete Task
-app.delete("/tasks/:id", async(req,res) => {
-    try{
-        console.log(req.params);
-        const { id } = req.params;
-        console.log(id);
-        await client.task.delete({
-            where: {
-                id,
-            },
-        });
-        res.status(200).json({ message: "Task deleted successfully." });
-    } catch (error) {
-        res.status(500).json({ message: "Error deleting task, please try again later." });
-    }
-})
+app.delete("/tasks/:id", async (req, res) => {
+  try {
+    console.log(req.params);
+    const { id } = req.params;
+    console.log(id);
+    await client.task.delete({
+      where: {
+        id,
+      },
+    });
+    res.status(200).json({ message: "Task deleted successfully." });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error deleting task, please try again later." });
+  }
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
