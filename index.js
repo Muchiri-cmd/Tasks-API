@@ -19,6 +19,7 @@ app.post("/tasks", async (req, res) => {
     });
     res.status(200).json(newTask);
   } catch (error) {
+    console.log(error);
     res
       .status(500)
       .json({ message: "An error occured. Please try again later." });
@@ -36,6 +37,7 @@ app.get("/tasks", async (req, res) => {
     });
     res.status(200).json(tasks);
   } catch (error) {
+    console.log(error);
     res
       .status(500)
       .json({ message: "Something went wrong , please try again later." });
@@ -56,6 +58,7 @@ app.get("/tasks/:id", async (req, res) => {
       ? res.status(200).json(task)
       : res.status(404).json({ message: "Task not found." });
   } catch (error) {
+    console.log(error);
     res
       .status(500)
       .json({ message: "Error fetching task, please try again later." });
@@ -106,6 +109,7 @@ app.delete("/tasks/:id", async (req, res) => {
     });
     res.status(200).json({ message: "Task deleted successfully." });
   } catch (error) {
+    console.log(error);
     res
       .status(500)
       .json({ message: "Error deleting task, please try again later." });
