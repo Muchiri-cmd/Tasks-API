@@ -25,6 +25,21 @@ app.post("/tasks", async (req, res) => {
   }
 });
 
+//Get all Tasks
+app.get("/tasks",async(req,res) => {
+    try{
+        const tasks = await client.task.findMany({
+            //get only incomplete tasks
+            where: {
+                isCompleted:false
+            }
+        });
+        res.status(200).json(tasks);
+    }catch( error ){
+        res.status(500).json({ message: "Something went wrong , please try again later." });
+    }
+})
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port http://localhost:${PORT}`);
